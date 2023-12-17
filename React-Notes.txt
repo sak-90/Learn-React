@@ -1,0 +1,113 @@
+ReactJS notes:
+
+Date: 17th December 2023
+
+Motivation:
+I have already worked with ReactJS both in personal projects and professional
+projects. However, I feel that there are some gaps in my knowledger. So, I
+will be going through the React.dev documentation this week inorder to fill
+those gaps.
+
+Next steps:
+After finishing this, I will be learning typescript and more specifically how
+to use typescript with React. I will try to assimilate all I hhave read via a
+personal project. 
+
+Expected timeline:
+I hope to finish all of the above before my internship starts on 8th January
+2024. 
+
+Headings:
+1) Describing the UI
+2) Adding interactivity
+3) Managing state
+4) Escape hatches
+
+# DESCRIBING THE UI
+
+1) Your first component
+	export default function ComponentName(){
+		return (
+			<h1>Hello there</h1>
+		)
+	}
+	React component names start with a capital letter.
+	React components return JSX markup.
+
+
+2) Importing and exporting components
+	We have two types of exports; default and named exports.
+	
+	Default exports:
+	export default function Button(){}
+	import Button from './Button.js';
+	Can have only one default export in file.
+	
+	Named exports:
+	export function Button(){}
+	import {Button} from './Button.js';
+	Can have as many named exports in a file.
+
+3) Writing markup with JSX
+	JSX is a syntax extension for JS that lets you write HTML like marktup inside a JavaScript file. 
+	React components group markup and logic together because they are related
+	and this ensures that they stay in sync throughout edits.
+
+
+3) JavaScript in JSX with curly braces
+	Curly braces can be used to referrence dynamic property inside markup.
+	Double curly braces are nothing but an object inside JSX curly braces.
+	Example1 
+	While writing inline CSS. <div style={{color:'red'}} />
+	Example2 
+	const person = {
+		name: 'Anantha',
+		theme: {
+			backgroundColor: 'black',
+			color: 'green'
+		}
+	}
+	<div style = {person.style}>Hello {person.name}</div>
+
+4) Passing props to a component
+	React components use props to comuunicate with each other. Parent
+	components can pass information to child componets by giving them props.
+	These props can be objects, arrays or functions.
+	Spread syntax for props:
+	function Profile(props){
+		return (
+			<div><Avatar {...props}/></div>
+		)
+	}
+	Nested JSX like <Card><Avatar /></Card> will appear as Card component's
+	{children} props.
+	Props are read-only snapshots in time. Each rerender receives new versions
+	of props. We cannot change props. For interactivity, we use state.
+
+5) Conditional rendering
+	If we do not want to render anything at all, we can return null.
+	We can return a JSX conditionally with an if statement.
+	{condition? <A /> : <B />}
+	{condition && <A />} render <A /> only if condition is true.
+
+6) Rendering lists
+	map() and filter() methods can be used to transform array of data into an
+	array of components.
+	Keys are passed to uniquly identify sibling components. Bad practice is to
+	use array index as keys and do not generate keys while rendering using for
+	example Math.random(). Assiciated keys should not change with rerenders.
+
+7) Keeping components pure
+	A React component must be kept pure, i.e. it should not change any objects
+	or variables that existed before rendering.
+	Do not mutate props, state or context. To update screen, set the state
+	instead of mutating pre-existing values.
+	Side effects belong inside event handlers.	
+
+8) UI as a tree
+	React models the UI as a tree which is useful for understanding the
+	relationship between compoenents
+	Render treess represent the relationship between React components across a
+	single render. Useful for debugging rendering performance.
+	Dependency trees represent the module dependencies in a React app. Used
+	for debugging bundle sizes.
