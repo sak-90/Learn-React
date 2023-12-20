@@ -111,3 +111,71 @@ Headings:
 	single render. Useful for debugging rendering performance.
 	Dependency trees represent the module dependencies in a React app. Used
 	for debugging bundle sizes.
+
+
+# ADDING INTERACTIVITY
+
+1) Responding to events
+	Event handlers are defined inside components, so they have access to the
+	component props.
+	Can pass event handler function as a prop. Example:
+	function Button ({onClick, children}){
+		return (
+			<button onClick={onClick}>{children}</button>
+		);
+	}
+	export default playMovieButton({moiveName}){
+		function handlePlayClick(){
+			alert(`Playing ${movieName}`);
+		}
+		return (
+			<Button onClick={handlePlayClick}>Play {movieName}</Button>
+		)
+	}
+	Event propagation: Any event bubbles of propagates up the tree. It starts
+	with where the event happened and then goes up the tree. We can use
+	e.stopPropagation();
+	Prevent default behaviour: Events may have upwanted default browser
+	behaviour like refreshing page on form submisson. We can
+	use e.preventDefault();
+
+2) State: A Component's memory
+	Component specific memory is referred to as state.
+	Updating local variables do not work because they do not persist between
+	renders, i.e. it renders it from scratch. Also, change in local variables
+	do not cause re-renders.
+	To update a component with new data, the data needs to be retained between
+	the rerenders and React need to be triggered to rerender with the updated
+	data.
+	State variables are used when component need to remember some information
+	between renders. const [state, setState] = useState(initialState);
+	State is isolated and private i.e. if the same component is rendered
+	twice, any change in one of them will not affect the other one.
+
+3) Render and Commit
+	Trigger a render => Render the component => Commit to the DOM
+	Triggering a render: Initial render of component / Component's state or
+	its ancestor's state has been updated.
+	Render the components: On initial render, React call the root component.
+	For subsequent renders, React calls the function component whose state
+	update triggered the render. Starting from the component all its children
+	are also rerendered.
+	Commiting changes to the DOM: For the initial render, React uses
+	appendChild() DOM API to put all the DOM nodes that it has created on
+	screen. For re-renders, React calculates the minimum changes required to
+	match the DOM to the latest rerenders. React does not touch the DOM if the rendering results are the same as last time.
+
+4) State as a Snapshot
+	Setting state requests a new render.
+	The state stored in React may have changed by the time the function runs
+	but it was scheduled using a snapshot of the state at the time the user
+	interacted with it.
+	A state variable's value never changes within a render, even if it's
+	handler's code is asynchronous.
+	Event handlers created in the past have the state values from the render
+	in which they were created.
+
+5) Queueing a Series of State Updates
+	Setting a state varialbe will trigger rerenders, but sometimes we may want
+	to perform multiple operations on the value before queueing the next
+	render.
