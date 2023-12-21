@@ -170,7 +170,7 @@ Headings:
 	The state stored in React may have changed by the time the function runs
 	but it was scheduled using a snapshot of the state at the time the user
 	interacted with it.
-	A state variable's value never changes within a render, even if it's
+	Each render' s state values are fixed. A state variable's value never changes within a render, even if it's
 	handler's code is asynchronous.
 	Event handlers created in the past have the state values from the render
 	in which they were created.
@@ -179,3 +179,26 @@ Headings:
 	Setting a state varialbe will trigger rerenders, but sometimes we may want
 	to perform multiple operations on the value before queueing the next
 	render.
+	If we want to update the same state variables multiple times before the
+	next render, we can pass a function that calculates the next state based
+	on the previous one in the queue. For example, setNumber(n => n+1);
+	setNumber(n => n+1) is called an updater function. When we pass it to a
+	state setter like setState, React queues this funciton to be processed
+	after all the other cod ein the event handler has run. And during the next
+	render, React goes through the code sequentially and update the state
+	variables.
+
+6) Updating Objects in State.
+	Lets say we have: const [position, setPosition] = useState({x:0, y:0});
+	Technically we can set position.x = 1. This is called mutating and we
+	should not do it. Treat it as read only.
+	Use spread operator to update objects: 
+	setObj({..obj, obj.oldVal: newVal});
+	useImmer if dealing with complex object structure.
+
+7) Updating Arrays in State.
+	Treat Arrays like immutable structures when storing them in state.
+	Spread operator to update Arrays in state: [...arr, newItem];
+	Be careful when dealing with objects inside arrays as spread operator copy
+	is shallow copy and both the new and old array objects point to the same
+	one. In that case, spread the objects inside as well.
